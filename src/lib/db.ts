@@ -1,6 +1,6 @@
 import { promises as fs } from "fs";
 import path from "path";
-import { Database, MaskedApi, UsageLog, ClientKey } from "./types";
+import { Database, MaskedApi, UsageLog, ClientKey, RateLimitType } from "./types";
 import bcrypt from "bcryptjs";
 import { v4 as uuidv4 } from "uuid";
 
@@ -86,7 +86,7 @@ export async function getApiBySlug(slug: string): Promise<MaskedApi | null> {
 }
 
 export async function createApi(
-  data: Omit<MaskedApi, "id" | "createdAt" | "updatedAt" | "totalRequests" | "clientKeys" | "slug">
+  data: Omit<MaskedApi, "id" | "createdAt" | "updatedAt" | "totalRequests" | "clientKeys" | "slug" | "expiresAt">
 ): Promise<MaskedApi> {
   const db = await readDb();
 
@@ -98,7 +98,7 @@ export async function createApi(
   let slug = baseSlug;
   let counter = 1;
   while (db.apis.some((a) => a.slug === slug)) {
-    slug = `${baseSlug}-${counter}`;
+    slug = `\( {baseSlug}- \){counter}`;
     counter++;
   }
 
