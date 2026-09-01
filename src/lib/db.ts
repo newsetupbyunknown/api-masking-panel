@@ -86,7 +86,10 @@ export async function getApiBySlug(slug: string): Promise<MaskedApi | null> {
 }
 
 export async function createApi(
-  data: Omit<MaskedApi, "id" | "createdAt" | "updatedAt" | "totalRequests" | "clientKeys" | "slug" | "expiresAt">
+  data: Omit<
+    MaskedApi,
+    "id" | "createdAt" | "updatedAt" | "totalRequests" | "clientKeys" | "slug" | "expiresAt"
+  >
 ): Promise<MaskedApi> {
   const db = await readDb();
 
